@@ -1,7 +1,9 @@
 package com.springboot.mvc.controller.api.car
 
 import com.springboot.mvc.dto.CarDto
+import com.springboot.mvc.dto.Description
 import com.springboot.mvc.dto.ErrorDto
+import com.springboot.mvc.dto.Result
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -49,13 +51,16 @@ class CarApiController {
     fun exceptionHandler(methodArgumentNotValidException: MethodArgumentNotValidException): ResponseEntity<ErrorDto> {
         println("CarApiController MethodArgumentNotValidException Exception 발생")
         val bindingResult = methodArgumentNotValidException.bindingResult
-        val message = mutableListOf<String>()
+        val message = mutableListOf<Description>()
         bindingResult.allErrors.forEach {
-            message.add("${(it as FieldError).field } : ${it.defaultMessage}")
+            message.add(Description((it as FieldError).field,it.defaultMessage))
         }
 
         val errorDto = ErrorDto().apply {
-            this.message = message
+            this.result = Result().apply {
+                this.code = "error"
+                this.description = message
+            }
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto)
