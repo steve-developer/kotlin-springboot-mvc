@@ -1,5 +1,6 @@
 package com.springboot.mvc.dto
 
+import com.springboot.mvc.annotation.StringDateTimeFormat
 import java.time.LocalDateTime
 import javax.validation.constraints.*
 
@@ -23,18 +24,25 @@ data class CarDto(
         var registerAt : LocalDateTime?=null,
 
         // 만료일자는 미래이거나 오늘
-        @field:FutureOrPresent(message = "expireAt : 만료일자는 오늘보다 미래여야 합니다.")
+        @field:FutureOrPresent(message = "만료일자는 오늘보다 미래여야 합니다.")
         var expireAt : LocalDateTime?=null,
 
         // 거리는 0이거나 양수
         // 최대 거리는 30000
         @field:PositiveOrZero
-        @field:Max(value = 30000, message = "distance : 0~30000 이내만 가능 합니다. ")
-        var distance : Int?=null
+        @field:Max(value = 30000, message = "0~30000 이내만 가능 합니다. ")
+        var distance : Int?=null,
+
+        @field:StringDateTimeFormat(pattern = "yyyyMMddHHmmss", message = "시간 형식이 맞지 않습니다. ")
+        var inspectionDateTime : String?=null
 ){
 
-        @AssertTrue(message = "Number의 값은 5000 이하 입니다")
+        @AssertTrue.List(value = [
+                AssertTrue(message = "Number의 값은 1000 이상 입니다"),
+                AssertTrue(message = "Number의 값은 5000 이하 입니다")
+                ]
+        )
         private fun isValidNumber() : Boolean{
-                return this.number?:0 < 5000
+                return this.number?:0 in 1001..4999
         }
 }
