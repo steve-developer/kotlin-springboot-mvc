@@ -41,6 +41,7 @@ class CarApiControllerTest {
         }
 
         val content = objectMapper.writeValueAsString(car)
+        println(content)
 
         mockMvc.perform(
                 put("/api/car")

@@ -3,6 +3,7 @@ package com.springboot.mvc.dto
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.springboot.mvc.annotation.StringDateTimeFormat
+import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.validation.constraints.*
@@ -10,6 +11,10 @@ import javax.validation.constraints.*
 data class CarDto(
 
         // 이름은 반드시 있어야 하고 공백 불가
+        @field:ApiModelProperty(
+                value = "이름",
+                example = "홍길동"
+        )
         @field:NotNull
         @field:NotBlank
         var name : String?=null,

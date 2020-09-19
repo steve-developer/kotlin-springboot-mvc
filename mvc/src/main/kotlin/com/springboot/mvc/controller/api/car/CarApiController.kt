@@ -4,6 +4,7 @@ import com.springboot.mvc.dto.CarDto
 import com.springboot.mvc.dto.Description
 import com.springboot.mvc.dto.ErrorDto
 import com.springboot.mvc.dto.Result
+import io.swagger.annotations.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -11,11 +12,18 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
-
+@Api(description = "자동차 관련 서비스")
+@ApiModel(description = "@@@@@@@@")
 @RestController
 @RequestMapping("/api/car")
 class CarApiController {
 
+    @ApiResponses(
+            value = [
+                ApiResponse(code = 400, message = "테스트 입니다")
+            ]
+    )
+    @ApiOperation(value = "자동차 정보 조회", notes = "@@@")
     @PutMapping("")
     fun read(@Valid @RequestBody carDto: CarDto?
              //, bindingResult: BindingResult
@@ -37,7 +45,7 @@ class CarApiController {
         return carDto?.let { ResponseEntity.ok(it) }
     }
 
-
+    @ApiOperation(value = "자동차 정보 조회", notes = "@@@")
     @PostMapping("")
     fun create(@Valid
                @RequestBody

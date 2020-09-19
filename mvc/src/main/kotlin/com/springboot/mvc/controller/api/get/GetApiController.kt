@@ -1,6 +1,7 @@
 package com.springboot.mvc.controller.api.get
 
 import com.springboot.mvc.dto.UserDto
+import io.swagger.annotations.ApiParam
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -32,7 +33,7 @@ class GetApiController {
     }
 
     @GetMapping(path = ["get-mapping/query-param"])
-    fun getMappingQueryParam(@RequestParam(name = "name", required = false) name: String): ResponseEntity<String> {
+    fun getMappingQueryParam(@ApiParam(value = "이름", required = true) @RequestParam(name = "name", required = false) name: String): ResponseEntity<String> {
         return ResponseEntity.ok(name)
     }
 
