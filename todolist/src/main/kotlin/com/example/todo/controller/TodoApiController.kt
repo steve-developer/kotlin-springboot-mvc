@@ -5,6 +5,7 @@ import com.example.todo.model.dto.ErrorDto
 import com.example.todo.model.dto.TodoDto
 import com.example.todo.model.entity.Todo
 import com.example.todo.service.TodoService
+import io.swagger.annotations.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -12,14 +13,22 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+@Api(description = "일정 관리")
 @RestController
 @RequestMapping("/api/todo")
 class TodoApiController(
         val todoService: TodoService
 ) {
 
+    @ApiResponses(
+            value = [
+                ApiResponse(code = 400, message = "{\"result\":{\"code\":\"error\",\"description\":[{\"field\":\"schedule\",\"message\":\"시간 형식이 유효하지 않습니다.\"},{\"field\":\"schedule\",\"message\":\"비어 있을 수 없습니다\"}]}}")
+            ]
+    )
+    @ApiOperation(value = "일정 등록", notes = "일정 등록 POST API")
     @PostMapping("")
-    fun create(@Valid @RequestBody todoDto: TodoDto): ResponseEntity<Todo> {
+    fun create(@ApiParam(name = "Request", value = "Request Model")
+               @Valid @RequestBody todoDto: TodoDto): ResponseEntity<Todo> {
         return ResponseEntity.ok(todoService.create(todoDto))
     }
 
@@ -34,7 +43,8 @@ class TodoApiController(
     }
 
     @PutMapping("")
-    fun update(@Valid @RequestBody todoDto: TodoDto): Todo {
+    fun update(@Valid
+               @RequestBody todoDto: TodoDto): Todo {
         return todoService.update(todoDto)
     }
 
